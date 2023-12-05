@@ -1,21 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
 </script>
 
 <template>
   <header>
-    <el-row class="mb-4">
-      <el-button disabled>Default</el-button>
-      <el-button type="primary" disabled>Primary</el-button>
-      <el-button type="success" disabled>Success</el-button>
-      <el-button type="info" disabled>Info</el-button>
-      <el-button type="warning" disabled>Warning</el-button>
-      <el-button type="danger" disabled>Danger</el-button>
-    </el-row>
+    <!-- 一级路由出口组件 -->
+    <RouterView />
   </header>
-
-  <RouterView />
 </template>
 
 <style scoped>

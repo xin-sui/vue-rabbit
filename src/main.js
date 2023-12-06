@@ -5,7 +5,8 @@ import {createPinia} from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-
+//初始化样式
+import '@/assets/main.css'
 //测试接口函数
 import {getCategoryList} from "@/apis/testApi";
 getCategoryList().then((res) => {

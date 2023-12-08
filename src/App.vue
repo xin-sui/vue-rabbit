@@ -5,13 +5,8 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
     <!-- 一级路由出口组件 -->
     <RouterView />
-    <div class="test">
-      test
-    </div>
 </template>
 
 <style lang="scss">
-.test{
-  color:$priceColor;
-}
+
 </style>

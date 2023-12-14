@@ -1,42 +1,12 @@
 <script setup>
-import { getTopCategoryAPI } from '@/apis/category';
-import { getBannerAPI } from "@/apis/home";
-import { onMounted, ref, onBeforeUpdate, watch } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
-import GoodsItem from '../Home/components/GoodsItem.vue';
 
-const categoryData = ref({})
-const route = useRoute()
-//获取面包屑导航数据
-const getTopCategory = async (id = route.params.id) => { //如果传入id则为传入id，否则为路由id
-    // 调用getTopCategoryAPI函数，获取id对应的分类信息
-    const res = await getTopCategoryAPI(id)
-    // console.log(res);
-    categoryData.value = res.result
-}
-//获取商品页轮播图数据
-const bannerList = ref([])
-const getBanner = async () => {
-    const res = await getBannerAPI({
-        distributionSite: "2"
-    })
-    bannerList.value = res.result
-}
-// 第一种方法监听路由
-// watch(() => route.params.id, () => {
-//     // 当路由参数id发生变化时，调用getTopCategory函数
-//     getTopCategory()
-// })
-//第二种方法 使用onBeforeRouteUpdate
-onBeforeRouteUpdate((to) => {
-    getTopCategory(to.params.id)
-})
-onMounted(() => {
-    // 当组件加载完成时调用
-    getTopCategory()
-    getBanner()
-})
-//获取轮播图banner
+
+import GoodsItem from '../Home/components/GoodsItem.vue';
+import { useBanner } from './composables/useBanner'
+import { useCategory } from './composables/useCategory'
+const { bannerList } = useBanner()
+const { categoryData } = useCategory()
+
 </script>
 
 <template>

@@ -2,15 +2,15 @@
 import { getTopCategoryAPI } from '@/apis/category';
 import { getBannerAPI } from "@/apis/home";
 import { onMounted, ref, onBeforeUpdate, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import GoodsItem from '../Home/components/GoodsItem.vue';
 
 const categoryData = ref({})
 const route = useRoute()
 //获取面包屑导航数据
-const getTopCategory = async () => {
+const getTopCategory = async (id = route.params.id) => { //如果传入id则为传入id，否则为路由id
     // 调用getTopCategoryAPI函数，获取id对应的分类信息
-    const res = await getTopCategoryAPI(route.params.id)
+    const res = await getTopCategoryAPI(id)
     // console.log(res);
     categoryData.value = res.result
 }
@@ -21,17 +21,16 @@ const getBanner = async () => {
         distributionSite: "2"
     })
     bannerList.value = res.result
-
 }
-// onBeforeUpdate(() => {
-//     // 在更新之前调用getTopCategory函数
+// 第一种方法监听路由
+// watch(() => route.params.id, () => {
+//     // 当路由参数id发生变化时，调用getTopCategory函数
 //     getTopCategory()
 // })
-watch(() => route.params.id, () => {
-    // 当路由参数id发生变化时，调用getTopCategory函数
-    getTopCategory()
+//第二种方法 使用onBeforeRouteUpdate
+onBeforeRouteUpdate((to) => {
+    getTopCategory(to.params.id)
 })
-
 onMounted(() => {
     // 当组件加载完成时调用
     getTopCategory()

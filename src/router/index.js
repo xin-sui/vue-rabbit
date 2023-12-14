@@ -24,7 +24,7 @@ const router = createRouter({
                 },
                 {
                     // 路由路径
-                    path: "/category",
+                    path: "/category/:id",
                     // 路由组件
                     component: Category
                 }

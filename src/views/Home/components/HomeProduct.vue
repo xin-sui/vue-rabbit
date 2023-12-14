@@ -18,7 +18,7 @@ onMounted(() => {
 })
 
 </script>
-
+<!-- 商品列表页 -->
 <template>
   <div class="home-product">
     <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">

@@ -12,7 +12,7 @@ defineProps({
 })
 </script>
 
-
+<!-- 面板组件  -->
 <template>
   <div class="home-panel">
     <div class="container">

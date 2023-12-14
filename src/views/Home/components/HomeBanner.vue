@@ -1,6 +1,6 @@
 <script setup>
-import {getBannerAPI} from "@/apis/home";
-import {onMounted, ref} from 'vue'
+import { getBannerAPI } from "@/apis/home";
+import { onMounted, ref } from 'vue'
 
 const bannerList = ref([])
 const getBanner = async () => {
@@ -14,14 +14,12 @@ onMounted(() => {
 
 </script>
 
-
+<!-- 轮播图 -->
 <template>
   <div class="home-banner">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <img
-            :src="item.imgUrl"
-            alt="">
+        <img :src="item.imgUrl" alt="">
       </el-carousel-item>
     </el-carousel>
   </div>

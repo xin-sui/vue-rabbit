@@ -14,7 +14,7 @@ const getHot = async () => {
 }
 getHot()
 </script>
-
+<!-- 人气推荐 -->
 <template>
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
 

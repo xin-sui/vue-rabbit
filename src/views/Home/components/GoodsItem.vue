@@ -6,7 +6,7 @@ defineProps({
     }
 })
 </script>
-
+<!-- 商品列表组件 -->
 <template>
     <RouterLink to="/" class="goods-item">
         <img v-img-lazy="goods.picture" alt="" />

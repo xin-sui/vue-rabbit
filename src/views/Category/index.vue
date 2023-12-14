@@ -1,11 +1,122 @@
+<script setup>
+import { getTopCategoryAPI } from '@/apis/category';
+import { onMounted, ref, onBeforeUpdate, watch } from 'vue';
+import { useRoute } from 'vue-router';
+const categoryData = ref({})
+const route = useRoute()
+const getTopCategory = async () => {
+    // 调用getTopCategoryAPI函数，获取id对应的分类信息
+    const res = await getTopCategoryAPI(route.params.id)
+    // console.log(res);
+    categoryData.value = res.result
+}
+
+onBeforeUpdate(() => {
+    // 在更新之前调用getTopCategory函数
+    getTopCategory()
+})
+// watch(() => route.params.id, () => {
+//     // 当路由参数id发生变化时，调用getTopCategory函数
+//     getTopCategory()
+// })
+
+onMounted(() => {
+    // 当组件加载完成时调用
+    getTopCategory()
+})
+</script>
+
 <template>
-    <div>
-        分类
+    <div class="top-category">
+        <div class="container m-top-20">
+            <!-- 面包屑 -->
+            <div class="bread-container">
+                <el-breadcrumb separator=">">
+                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
+                </el-breadcrumb>
+            </div>
+        </div>
     </div>
 </template>
 
-<script setup>
 
-</script>
+<style scoped lang="scss">
+.top-category {
+    h3 {
+        font-size: 28px;
+        color: #666;
+        font-weight: normal;
+        text-align: center;
+        line-height: 100px;
+    }
 
-<style lang="scss" scoped></style>
+    .sub-list {
+        margin-top: 20px;
+        background-color: #fff;
+
+        ul {
+            display: flex;
+            padding: 0 32px;
+            flex-wrap: wrap;
+
+            li {
+                width: 168px;
+                height: 160px;
+
+
+                a {
+                    text-align: center;
+                    display: block;
+                    font-size: 16px;
+
+                    img {
+                        width: 100px;
+                        height: 100px;
+                    }
+
+                    p {
+                        line-height: 40px;
+                    }
+
+                    &:hover {
+                        color: $xtxColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .ref-goods {
+        background-color: #fff;
+        margin-top: 20px;
+        position: relative;
+
+        .head {
+            .xtx-more {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+
+            .tag {
+                text-align: center;
+                color: #999;
+                font-size: 20px;
+                position: relative;
+                top: -20px;
+            }
+        }
+
+        .body {
+            display: flex;
+            justify-content: space-around;
+            padding: 0 40px 30px;
+        }
+    }
+
+    .bread-container {
+        padding: 25px 0;
+    }
+}
+</style>

@@ -1,14 +1,16 @@
 <script setup>
 
 import HomePanel from "./HomePanel.vue";
-import {getHotAPI} from "@/apis/home"
-import {ref} from "vue";
+import { getHotAPI } from "@/apis/home"
+import { ref } from "vue";
 
 const hotList = ref([])
 const getHot = async () => {
+  // 调用getHotAPI接口获取数据
   const res = await getHotAPI()
+  // 将获取到的数据赋值给hotList
   hotList.value = res.result
-  console.log(hotList.value)
+  // console.log(hotList.value)
 }
 getHot()
 </script>

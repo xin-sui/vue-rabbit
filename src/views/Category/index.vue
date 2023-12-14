@@ -1,16 +1,26 @@
 <script setup>
 import { getTopCategoryAPI } from '@/apis/category';
+import { getBannerAPI } from "@/apis/home";
 import { onMounted, ref, onBeforeUpdate, watch } from 'vue';
 import { useRoute } from 'vue-router';
 const categoryData = ref({})
 const route = useRoute()
+//获取面包屑导航数据
 const getTopCategory = async () => {
     // 调用getTopCategoryAPI函数，获取id对应的分类信息
     const res = await getTopCategoryAPI(route.params.id)
     // console.log(res);
     categoryData.value = res.result
 }
+//获取商品页轮播图数据
+const bannerList = ref([])
+const getBanner = async () => {
+    const res = await getBannerAPI({
+        distributionSite: "2"
+    })
+    bannerList.value = res.result
 
+}
 onBeforeUpdate(() => {
     // 在更新之前调用getTopCategory函数
     getTopCategory()
@@ -23,7 +33,9 @@ onBeforeUpdate(() => {
 onMounted(() => {
     // 当组件加载完成时调用
     getTopCategory()
+    getBanner()
 })
+//获取轮播图banner
 </script>
 
 <template>
@@ -37,6 +49,14 @@ onMounted(() => {
                 </el-breadcrumb>
             </div>
         </div>
+    </div>
+    <!--轮播图 -->
+    <div class="home-banner">
+        <el-carousel height="500px">
+            <el-carousel-item v-for="item in bannerList" :key="item.id">
+                <img :src="item.imgUrl" alt="">
+            </el-carousel-item>
+        </el-carousel>
     </div>
 </template>
 
@@ -117,6 +137,17 @@ onMounted(() => {
 
     .bread-container {
         padding: 25px 0;
+    }
+}
+
+.home-banner {
+    width: 1240px;
+    height: 500px;
+    margin: 0 auto;
+
+    img {
+        width: 100%;
+        height: 500px;
     }
 }
 </style>

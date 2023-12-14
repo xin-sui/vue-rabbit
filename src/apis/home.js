@@ -2,10 +2,13 @@ import httpInstance from "@/utils/https";
 
 //封装获取banner接口
 // 导出一个函数，用于获取banner API
-export function getBannerAPI() {
+export function getBannerAPI(params = {}) {
     // 返回一个httpInstance，请求地址为'/home/banner'
+    //广告区域展示位置（投放位置 投放位置，1为首页，2为分类商品页） 默认是1
+    const {distributionSite = "1"} = params;
     return httpInstance({
-        url: "/home/banner"
+        url: "/home/banner",
+        params: {distributionSite}
     });
 }
 

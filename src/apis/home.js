@@ -1,12 +1,12 @@
-import httpInstance from '@/utils/https'
+import httpInstance from "@/utils/https";
 
 //封装获取banner接口
 // 导出一个函数，用于获取banner API
 export function getBannerAPI() {
     // 返回一个httpInstance，请求地址为'/home/banner'
     return httpInstance({
-        url: '/home/banner'
-    })
+        url: "/home/banner"
+    });
 }
 
 /**
@@ -16,9 +16,9 @@ export function getBannerAPI() {
  */
 export const findNewAPI = () => {
     return httpInstance({
-        url: '/home/new'
-    })
-}
+        url: "/home/new"
+    });
+};
 
 /**
  * @description: 获取人气推荐
@@ -27,6 +27,16 @@ export const findNewAPI = () => {
  */
 export const getHotAPI = () => {
     return httpInstance({
-        url: 'home/hot'
-    })
-}
+        url: "home/hot"
+    });
+};
+/**
+ * @description: 获取所有商品
+ * @param {*}
+ * @return {*}
+ */
+export const getGoodsAPI = () => {
+    return httpInstance({
+        url: "/home/goods"
+    });
+};

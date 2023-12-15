@@ -43,7 +43,11 @@ const router = createRouter({
             // 路由组件
             component: Login
         }
-    ]
+    ],
+    //路由滚动行为定制 切换路由时回到顶部
+    scrollBehavior() {
+        return {top: 0};
+    }
 });
 
 // 导出路由实例

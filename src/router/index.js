@@ -4,6 +4,7 @@ import Login from "@/views/Login/index.vue";
 import Layout from "@/views/Layout/index.vue";
 import Home from "@/views/Home/index.vue";
 import Category from "@/views/Category/index.vue";
+import SubCategory from "@/views/SubCategory/index.vue";
 // 创建一个路由，并设置基础路径为BASE_URL
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,10 +24,16 @@ const router = createRouter({
                     component: Home
                 },
                 {
-                    // 路由路径
+                    // 二级路由路径分类
                     path: "/category/:id",
                     // 路由组件
                     component: Category
+                },
+                {
+                    // 三级路由路径
+                    path: "/category/sub/:id",
+                    // 路由组件
+                    component: SubCategory
                 }
             ]
         },

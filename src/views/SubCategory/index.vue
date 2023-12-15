@@ -1,15 +1,34 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from "vue-router"
-import { getCategoryFilterAPI } from '@/apis/category';
+import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category';
+import GoodsItem from '../Home/components/GoodsItem.vue';
+
 const route = useRoute();
+//二级分类面包屑
 const categoryData = ref([])
 const getCategoryFilter = async () => {
+    // 调用getCategoryFilterAPI函数，获取分类过滤数据
     const res = await getCategoryFilterAPI(route.params.id)
+    // 将获取到的分类过滤数据赋值给categoryData
     categoryData.value = res.result
 }
+//二级分类商品数据列表
+const goodsList = ref({})
+const reqData = ref({
+    categoryId: route.params.id,
+    page: 1,
+    pageSize: 20,
+    sortField: 'publishTime' //| 'orderNum' | 'evaluateNum'
+})
+const getGoodsList = async () => {
+    const res = await getSubCategoryAPI(reqData)
+    goodsList.value = res.result
+}
 onMounted(() => {
+    // 当组件加载完毕时调用
     getCategoryFilter()
+    getGoodsList()
 })
 </script>
 
@@ -32,6 +51,7 @@ onMounted(() => {
             </el-tabs>
             <div class="body">
                 <!-- 商品列表-->
+                <GoodsItem v-for="goods in goodsList.items" :goods="goods" :key="goods.id"></GoodsItem>
             </div>
         </div>
     </div>

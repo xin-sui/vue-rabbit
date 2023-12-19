@@ -29,7 +29,6 @@ const getGoodsList = async () => {
 }
 //切换tap时重新请求数据
 const tapChange = async () => {
-    console.log(reqData.value.sortField);
     // 设置当前页码为1
     reqData.value.page = 1
     // 调用获取商品列表函数

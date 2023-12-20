@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-
+import { ref, reactive, watch } from 'vue';
+import { useMouseInElement } from '@vueuse/core'
 // 图片列表
 const imageList = [
     "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
@@ -9,11 +9,41 @@ const imageList = [
     "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
     "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
 ]
+//图片激活位置
 const activeIndex = ref(0)
+// 定义一个函数，用于更新activeIndex的值
 const enterHandler = ((index) => {
     activeIndex.value = index
 })
+//获取鼠标相对位置
+const left = ref(0)
+const top = ref(0)
+const target = ref(null)
+const { elementX, elementY, isOutside } = useMouseInElement(target)
+watch([elementX, elementY], () => {
+    //有效范围内控制滑块距离
+    //横向
+    if (elementX.value > 100 && elementX.value < 300) {
+        left.value = elementX.value - 100
+    }
+    if (elementY.value > 100 && elementY.value < 300) {
+        top.value = elementY.value - 100
+    }
+    //边界距离
+    if (elementX.value > 300) {
+        left.value = 200
+    }
+    if (elementX.value < 100) {
+        left.value = 0
+    }
+    if (elementY.value > 300) {
+        top.value = 200
+    }
+    if (elementY.value < 100) {
+        top.value = 0
+    }
 
+})
 </script>
 
 
@@ -23,7 +53,7 @@ const enterHandler = ((index) => {
         <div class="middle" ref="target">
             <img :src="imageList[activeIndex]" alt="" />
             <!-- 蒙层小滑块 -->
-            <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
+            <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
         </div>
         <!-- 小图列表 -->
         <ul class="small">
@@ -34,11 +64,12 @@ const enterHandler = ((index) => {
         <!-- 放大镜大图 -->
         <div class="large" :style="[
             {
-                backgroundImage: `url(${imageList[0]})`,
-                backgroundPositionX: `0px`,
-                backgroundPositionY: `0px`,
+                backgroundImage: `url(${imageList[activeIndex]})`,
+                backgroundPositionX: `${left}px`,
+                backgroundPositionY: `${top}px`,
             },
         ]" v-show="false"></div>
+
     </div>
 </template>
 

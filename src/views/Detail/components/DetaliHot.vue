@@ -1,7 +1,7 @@
 <script setup>
 // 以二十四小时热榜获取数据渲染模版
 import { getHotGoodsAPI } from '@/apis/detail'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute()
 const detaliHotData = ref([])
@@ -14,8 +14,12 @@ const getHotGoods = async () => {
         // 请求类型
         type: 1,
     })
-
+    detaliHotData.value = res.result
 }
+onMounted(() => {
+    // 当组件加载完成时调用
+    getHotGoods()
+})
 </script>
 
 
@@ -23,11 +27,11 @@ const getHotGoods = async () => {
     <div class="goods-hot">
         <h3>周日榜单</h3>
         <!-- 商品区块 -->
-        <RouterLink to="/" class="goods-item" v-for="item in 3" :key="item.id">
+        <RouterLink to="/" class="goods-item" v-for="item in detaliHotData" :key="item.id">
             <img :src="item.picture" alt="" />
-            <p class="name ellipsis">一双男鞋</p>
-            <p class="desc ellipsis">一双好穿的男鞋</p>
-            <p class="price">&yen;200.00</p>
+            <p class="name ellipsis">{{ item.name }}</p>
+            <p class="desc ellipsis">{{ item.desc }}</p>
+            <p class="price">&yen;{{ item.price }}</p>
         </RouterLink>
     </div>
 </template>

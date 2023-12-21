@@ -4,16 +4,36 @@ import { ref } from 'vue';
 //表单校验（userName+pass）
 const form = ref({
     account: '',
-    password: ''
+    password: '',
+    agree: true
 })
 //检验规则
 const rules = {
     account: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
     password: [{ required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 14, message: '密码长度在6-14位之间', trigger: 'blur' }]
+    { min: 6, max: 14, message: '密码长度在6-14位之间', trigger: 'blur' }],
+    //自定义校验
+    agree: [{
+        // 校验函数
+        validator: (rule, value, callback) => {
+            // 打印rule
+            console.log(rule);
+            // 判断value是否为空
+            if (!value) {
+                // 如果为空，调用callback函数，并传入错误信息
+                callback(new Error('请阅读并同意小兔鲜用户协议'))
+            } else {
+                // 如果不为空，调用callback函数
+                callback()
+            }
+        },
+        // 触发事件
+        trigger: 'change'
+    }]
 }
-</script>
 
+</script>
+ 
 
 <template>
     <div>
@@ -43,8 +63,8 @@ const rules = {
                             <el-form-item prop="password" label="密码">
                                 <el-input v-model="form.password" />
                             </el-form-item>
-                            <el-form-item label-width="22px">
-                                <el-checkbox size="large">
+                            <el-form-item prop="agree" label-width="22px">
+                                <el-checkbox v-model="form.agree" size="large">
                                     我已同意隐私条款和服务条款
                                 </el-checkbox>
                             </el-form-item>

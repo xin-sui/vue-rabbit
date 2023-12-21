@@ -1,5 +1,7 @@
 //axios 基础封装
 import axios from "axios";
+import {ElMessage} from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
 const httpInstance = axios.create({
     //基础URl
     baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
@@ -19,6 +21,12 @@ httpInstance.interceptors.request.use(
 httpInstance.interceptors.response.use(
     (res) => res.data,
     (e) => {
+        //统一错误提示
+        ElMessage({
+            type: "error",
+            message: e.response.data.message
+        });
+        //返回错误信息
         return Promise.reject(e);
     }
 );

@@ -18,8 +18,9 @@ onMounted(() => {
 <template>
   <div>
     <LayoutFixed></LayoutFixed>
-    <LayoutHeader></LayoutHeader>
     <LayoutNav></LayoutNav>
+    <LayoutHeader></LayoutHeader>
+
     <!-- 路由出口 -->
     <RouterView />
     <LayoutFooter></LayoutFooter>

@@ -15,15 +15,15 @@ export const useUserStore = defineStore(
             userInfo.value = res.result;
         };
         // 定义修改state数据action
-        const updateUserInfo = (data) => {
-            userInfo.value = data;
+        const clearUserInfo = () => {
+            userInfo.value = {};
         };
-        // 定义持久化
 
         // 返回对象
-        return {userInfo, getUserInfo, updateUserInfo};
+        return {userInfo, getUserInfo, clearUserInfo};
         // 以对象形式return
     },
+    //开启持久化功能
     {
         persist: true
     }

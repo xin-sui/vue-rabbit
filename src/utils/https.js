@@ -1,4 +1,5 @@
 //axios 基础封装
+import router from "@/router";
 import {useUserStore} from "@/stores/user";
 import axios from "axios";
 import {ElMessage} from "element-plus";
@@ -34,6 +35,13 @@ httpInstance.interceptors.response.use(
             type: "error",
             message: e.response.data.message
         });
+        //401 token 失效处理
+        if (e.response && e.response.status === 401) {
+            const userStore = useUserStore();
+            userStore.clearUserInfo();
+            //跳转到登录页
+            router.push("/login");
+        }
         //返回错误信息
         return Promise.reject(e);
     }

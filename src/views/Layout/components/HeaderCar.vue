@@ -1,18 +1,18 @@
 <script setup>
 import { useCartStore } from '@/stores/carStore';
 
-const carStore = useCartStore();
+const cartStore = useCartStore();
 </script>
 
 <template>
     <div class="cart">
         <a class="curr" href="javascript:;">
-            <i class="iconfont icon-cart"></i><em>{{ carStore.cartList.length }}</em>
+            <i class="iconfont icon-cart"></i><em>{{ cartStore.cartList.length }}</em>
         </a>
         <div class="layer">
             <div class="list">
 
-                <div class="item" v-for="i in carStore.cartList" :key="i">
+                <div class="item" v-for="i in cartStore.cartList" :key="i">
                     <RouterLink to="">
                         <img :src="i.picture" alt="" />
                         <div class="center">
@@ -26,7 +26,7 @@ const carStore = useCartStore();
                             <p class="count">x{{ i.count }}</p>
                         </div>
                     </RouterLink>
-                    <i class="iconfont icon-close-new" @click="store.delCart(i.skuId)"></i>
+                    <i class="iconfont icon-close-new" @click="cartStore.delCart(i.skuId)"></i>
                 </div>
 
             </div>

@@ -20,8 +20,15 @@ export const useCartStore = defineStore(
             }
             // 更新购物车列表
         };
+        const delCart = (skuId) => {
+            // 删除逻辑
+            const index = cartList.value.findIndex((item) => item.skuId === skuId);
+            if (index !== -1) {
+                cartList.value.splice(index, 1);
+            }
+        };
         // 更新商品数量
-        return {cartList, addCart};
+        return {cartList, addCart, delCart};
     },
     {
         persist: true // 开启本地存储

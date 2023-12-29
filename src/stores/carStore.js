@@ -1,6 +1,6 @@
 //封装购物车模块
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 export const useCartStore = defineStore(
     "cart",
@@ -27,8 +27,13 @@ export const useCartStore = defineStore(
                 cartList.value.splice(index, 1);
             }
         };
-        // 更新商品数量
-        return {cartList, addCart, delCart};
+        //计算商品数量之和
+        const allCount = computed(() => {
+            cartList.value.reduce((total, item) => total + item.count, 0);
+        });
+        //总价count*price之和
+        const allPrice = computed(() => cartList.value.reduce((total, item) => total + item.count * item.price, 0));
+        return {cartList, addCart, delCart, allCount, allPrice};
     },
     {
         persist: true // 开启本地存储

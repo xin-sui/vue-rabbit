@@ -11,7 +11,6 @@ const cartStore = useCartStore();
         </a>
         <div class="layer">
             <div class="list">
-
                 <div class="item" v-for="i in cartStore.cartList" :key="i">
                     <RouterLink to="">
                         <img :src="i.picture" alt="" />
@@ -28,14 +27,13 @@ const cartStore = useCartStore();
                     </RouterLink>
                     <i class="iconfont icon-close-new" @click="cartStore.delCart(i.skuId)"></i>
                 </div>
-
             </div>
             <div class="foot">
                 <div class="total">
                     <p>共 {{ cartStore.allCount }} 件商品</p>
                     <p>&yen; {{ cartStore.allPrice }}</p>
                 </div>
-                <el-button size="large" type="primary">去购物车结算</el-button>
+                <el-button size="large" type="primary" @click="$router.push('/cartlist')"> 去购物车结算 </el-button>
             </div>
         </div>
     </div>

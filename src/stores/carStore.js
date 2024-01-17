@@ -27,13 +27,21 @@ export const useCartStore = defineStore(
                 cartList.value.splice(index, 1);
             }
         };
+        //单选功能
+        const singeleCheck = (skuId, selected) => {
+            console.log(skuId, selected);
+            // 通过skuid找到需要修改项
+            const item = cartList.value.find((item) => item.skuId === skuId);
+            console.log(item);
+            item.selected = selected;
+        };
         //计算商品数量之和
         const allCount = computed(() => {
             cartList.value.reduce((total, item) => total + item.count, 0);
         });
         //总价count*price之和
         const allPrice = computed(() => cartList.value.reduce((total, item) => total + item.count * item.price, 0));
-        return {cartList, addCart, delCart, allCount, allPrice};
+        return {cartList, addCart, delCart, allCount, allPrice, singeleCheck};
     },
     {
         persist: true // 开启本地存储

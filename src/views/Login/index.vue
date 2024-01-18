@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore()
 //表单校验（userName+pass）
 const form = ref({
@@ -342,4 +342,4 @@ const reset = () => {
     width: 100%;
     color: #fff;
 }
-</style>
+</style>@/stores/userStore

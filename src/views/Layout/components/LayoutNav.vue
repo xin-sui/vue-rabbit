@@ -1,6 +1,6 @@
 <script setup>
 
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/userStore';
 import { useRouter, useRoute } from 'vue-router';
 const useStore = useUserStore()
 const router = useRouter()
@@ -74,4 +74,4 @@ const confirm = () => {
     }
   }
 }
-</style>
+</style>@/stores/userStore

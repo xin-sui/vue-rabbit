@@ -1,7 +1,9 @@
 //封装购物车模块
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
-import {useUserStore} from "./user";
+import {useUserStore} from "./userStore";
+import {insertCartAPI, findNewCartListAPI, delCartAPI} from "@/apis/cart";
+
 export const useCartStore = defineStore(
     "cart",
     () => {
@@ -9,10 +11,13 @@ export const useCartStore = defineStore(
         const isLogin = computed(() => userStore.userInfo.token);
         // 购物车列表
         const cartList = ref([]);
+
         // 添加商品到购物车
-        const addCart = (goods) => {
-            if (isLogin) {
+        const addCart = async (goods) => {
+            if (isLogin.value) {
                 // 已登录，执行添加逻辑
+                await insertCartAPI(goods);
+                await updateNewList();
             } else {
                 // 添加逻辑
                 //添加过 count+1
@@ -26,12 +31,22 @@ export const useCartStore = defineStore(
                 }
             }
         };
-        const delCart = (skuId) => {
-            // 删除逻辑
-            const index = cartList.value.findIndex((item) => item.skuId === skuId);
-            if (index !== -1) {
-                cartList.value.splice(index, 1);
+        const delCart = async (skuId) => {
+            if (isLogin) {
+                await delCartAPI([skuId]);
+                await updateNewList();
+            } else {
+                // 删除逻辑
+                const index = cartList.value.findIndex((item) => item.skuId === skuId);
+                if (index !== -1) {
+                    cartList.value.splice(index, 1);
+                }
             }
+        };
+        //获取最新的购物车列表
+        const updateNewList = async () => {
+            const res = await findNewCartListAPI();
+            cartList.value = res.result;
         };
         //单选功能
         const singeleCheck = (skuId, selected) => {

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useCategoryStore } from "@/stores/category";
+import { useCategoryStore } from "@/stores/categoryStore";
 import HeaderCar from "./HeaderCar.vue";
 const categoryStore = useCategoryStore()
 
@@ -132,4 +132,4 @@ const categoryStore = useCategoryStore()
     }
   }
 }
-</style>
+</style>@/stores/categoryStore

@@ -15,7 +15,8 @@ const singleCheck = (i, selected) => {
                     <thead>
                         <tr>
                             <th width="120">
-                                <el-checkbox />
+                                <el-checkbox :model-value="carStore.isAll"
+                                    @change="(selected) => carStore.allCheck(selected)" />
                             </th>
                             <th width="400">商品信息</th>
                             <th width="220">单价</th>
@@ -53,7 +54,7 @@ const singleCheck = (i, selected) => {
                             <td class="tc">
                                 <p>
                                     <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消"
-                                        @confirm="delCart(i)">
+                                        @confirm="carStore.delCart(i.skuId)">
                                         <template #reference>
                                             <a href="javascript:;">删除</a>
                                         </template>
@@ -77,8 +78,8 @@ const singleCheck = (i, selected) => {
             <!-- 操作栏 -->
             <div class="action">
                 <div class="batch">
-                    共 10 件商品，已选择 2 件，商品合计：
-                    <span class="red">¥ 200.00 </span>
+                    共 {{ carStore.allCount }} 件商品，已选择 {{ carStore.selectedCount }} 件，商品合计：
+                    <span class="red">¥ {{ carStore.selectedPrice }} </span>
                 </div>
                 <div class="total">
                     <el-button size="large" type="primary">下单结算</el-button>

@@ -36,12 +36,36 @@ export const useCartStore = defineStore(
             item.selected = selected;
         };
         //计算商品数量之和
-        const allCount = computed(() => {
-            cartList.value.reduce((total, item) => total + item.count, 0);
-        });
+        const allCount = computed(() => cartList.value.reduce((total, item) => total + item.count, 0));
         //总价count*price之和
         const allPrice = computed(() => cartList.value.reduce((total, item) => total + item.count * item.price, 0));
-        return {cartList, addCart, delCart, allCount, allPrice, singeleCheck};
+
+        //是否全选
+        const isAll = computed(() => cartList.value.every((item) => item.selected));
+        //全选
+        const allCheck = (selected) => {
+            cartList.value.forEach((item) => (item.selected = selected));
+        };
+        //计算商品已选择数量
+        const selectedCount = computed(() =>
+            cartList.value.filter((item) => item.selected).reduce((total, item) => total + item.count, 0)
+        );
+        //已选择商品价钱合计
+        const selectedPrice = computed(() =>
+            cartList.value.filter((item) => item.selected).reduce((total, item) => total + item.count * item.price, 0)
+        );
+        return {
+            cartList,
+            isAll,
+            allCount,
+            allPrice,
+            selectedCount,
+            selectedPrice,
+            addCart,
+            delCart,
+            singeleCheck,
+            allCheck
+        };
     },
     {
         persist: true // 开启本地存储

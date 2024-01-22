@@ -2,11 +2,11 @@ import {ref} from "vue";
 import {defineStore} from "pinia";
 import {loginAPI} from "@/apis/user.js";
 import {useCartStore} from "./carStore";
-
+import {mergeCartAPI} from "@/apis/cart";
 export const useUserStore = defineStore(
     "user",
     () => {
-        const userStore = useCartStore();
+        const cartStore = useCartStore();
         // 定义管理用户数据state
         const userInfo = ref({});
         //定义获取接口数据action
@@ -15,12 +15,19 @@ export const useUserStore = defineStore(
             // 调用接口
             const res = await loginAPI(account, password);
             userInfo.value = res.result;
+            //登录时合并购物车
+            await mergeCartAPI(
+                cartStore.cartList.map((item) => {
+                    return {skuId: item.skuId, selected: item.selected, count: item.count};
+                })
+            );
+            cartStore.updateNewList();
         };
         // 定义修改state数据action
         const clearUserInfo = () => {
             userInfo.value = {};
             //清除购物车方法
-            userStore.clearCart();
+            cartStore.clearCart();
         };
 
         // 返回对象

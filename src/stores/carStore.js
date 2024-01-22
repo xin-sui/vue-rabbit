@@ -91,7 +91,8 @@ export const useCartStore = defineStore(
             delCart,
             singeleCheck,
             allCheck,
-            clearCart
+            clearCart,
+            updateNewList
         };
     },
     {

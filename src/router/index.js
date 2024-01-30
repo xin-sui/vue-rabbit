@@ -8,6 +8,7 @@ import SubCategory from "@/views/SubCategory/index.vue";
 import Detail from "@/views/Detail/index.vue";
 import CartList from "@/views/CartList/index.vue";
 import Checkout from "@/views/Checkout/index.vue";
+import Pay from "@/views/Pay/index.vue";
 // 创建一个路由，并设置基础路径为BASE_URL
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,13 +29,13 @@ const router = createRouter({
                 },
                 {
                     // 二级路由路径分类
-                    path: "/category/:id",
+                    path: "category/:id",
                     // 路由组件
                     component: Category
                 },
                 {
                     // 二级路由路径
-                    path: "/category/sub/:id",
+                    path: "category/sub/:id",
                     // 路由组件
                     component: SubCategory
                 },
@@ -43,12 +44,16 @@ const router = createRouter({
                     component: Detail
                 },
                 {
-                    path: "/cartlist",
+                    path: "cartlist",
                     component: CartList
                 },
                 {
-                    path: "/checkout",
+                    path: "checkout",
                     component: Checkout
+                },
+                {
+                    path: "pay",
+                    component: Pay
                 }
             ]
         },

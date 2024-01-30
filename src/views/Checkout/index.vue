@@ -1,7 +1,10 @@
 <script setup>
-import { getChekInfoAPI } from "@/apis/checkout"
+import { getChekInfoAPI, createOrderAPI } from "@/apis/checkout"
 import { onMounted, ref } from "vue";
-
+import { useRouter } from 'vue-router'
+import { useCartStore } from '@/stores/carStore'
+const carStore = useCartStore()
+const router = useRouter()
 const checkInfo = ref({}) // 订单对象
 const curAddress = ref({})
 const getChekInfo = async () => {
@@ -22,12 +25,45 @@ const activeAddress = ref({})
 const switchAddress = (item) => {
     activeAddress.value = item
 }
-//确认
+//确认地址
 const confirm = () => {
     //将激活的地址赋值给默认地址
     curAddress.value = activeAddress.value
     // 关闭对话框
     showDialog.value = false
+}
+//提交订单
+const createOrder = async () => {
+    const res = await createOrderAPI({
+        // 配送时间类型：1-立即配送，2-指定日期配送
+        deliveryTimeType: 1,
+        // 支付方式：1-在线支付，2-货到付款
+        payType: 1,
+        // 支付渠道：1-微信，2-支付宝，3-线下支付
+        payChannel: 1,
+        // 买家留言
+        buyerMessage: '',
+        // 商品信息
+        goods: checkInfo.value.goods.map(item => {
+            return {
+                skuId: item.skuId,
+                count: item.count
+            }
+        }),
+        // 收货地址id
+        addressId: curAddress.value.id
+    })
+    // 获取订单id
+    const orederId = res.result.id
+    // 跳转到支付页面
+    router.push({
+        path: '/pay',
+        query: {
+            id: orederId
+        }
+    })
+    //更新购物车
+    carStore.updateNewList()
 }
 onMounted(() => {
     getChekInfo()
@@ -128,7 +164,7 @@ onMounted(() => {
                 </div>
                 <!-- 提交订单 -->
                 <div class="submit">
-                    <el-button type="primary" size="large">提交订单</el-button>
+                    <el-button type="primary" size="large" @click="createOrder">提交订单</el-button>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ const getOrderInfo = async () => {
     orderInfo.value = res.result
 
 }
+start(orderInfo.value.countdown)
 onMounted(() => {
     getOrderInfo()
 })

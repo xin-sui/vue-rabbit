@@ -12,6 +12,18 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" }
 ]
+ // 创建格式化函数
+  const fomartPayState = (payState) => {
+    const stateMap = {
+      1: '待付款',
+      2: '待发货',
+      3: '待收货',
+      4: '待评价',
+      5: '已完成',
+      6: '已取消'
+    }
+    return stateMap[payState]
+  }
 //获取订单列表
 const params=ref({
   orderState:0,
@@ -21,7 +33,6 @@ const params=ref({
 const total=ref(0)
 // 订单列表
 const orderList =ref( [])
-
 const getOrderList = async () => {
   const res = await getUserOrderAPI(params.value)
   orderList.value = res.result.items
@@ -30,6 +41,11 @@ const getOrderList = async () => {
 //tab 切换
 const tabChange=(type)=>{
   params.value.orderState=type
+  getOrderList()
+}
+//页数切换
+const pageChange=(page)=>{
+  params.value.page=page
   getOrderList()
 }
 onMounted(() => getOrderList())
@@ -78,7 +94,7 @@ onMounted(() => getOrderList())
                                 </ul>
                             </div>
                             <div class="column state">
-                                <p>{{ order.orderState }}</p>
+                                <p>{{ fomartPayState(order.orderState)  }}</p>
                                 <p v-if="order.orderState === 3">
                                     <a href="javascript:;" class="green">查看物流</a>
                                 </p>
@@ -114,7 +130,13 @@ onMounted(() => getOrderList())
                     </div>
                     <!-- 分页 -->
                     <div class="pagination-container">
-                        <el-pagination background layout="prev, pager, next" />
+                        <el-pagination
+                            @current-change="pageChange"
+                            :page-size="params.pageSize"
+                            :total="total"
+                            background
+                            layout="prev, pager, next"
+                        />
                     </div>
                 </div>
             </div>
